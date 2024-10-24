@@ -70,6 +70,7 @@ client.on("ready", (discordbot) => {
     setInterval(() => {
         const random = Math.floor(Math.random()*activites.length);
         client.user.setActivity(activites[random]);
+        log(`Bot has changed activities!`, 1);
     }, 15000);
 
     // Sets Discord Bot Status To "Streaming zaap.bio/gav" With A Link To "https://twitch.tv/giftcard/buy"
