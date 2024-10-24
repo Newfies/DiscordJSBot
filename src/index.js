@@ -35,12 +35,12 @@ client.on("ready", (discordbot) => {
     log(`${discordbot.user.tag} is now running!`, 1);
 
     // Discord Bot Status Activities
-    const activities = [activityList];
+    const activities = activityList;
 
     // Discord Bot Status Randomizes Every 2 Minutes
     setInterval(() => {
-        const random = Math.floor(Math.random()*activites.length);
-        client.user.setActivity(activites[random]);
+        const random = Math.floor(Math.random()*activities.length);
+        client.user.setActivity(activities[random]);
         log(`Bot has changed activities!`, 1);
     }, 120000);
 
