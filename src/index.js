@@ -1,25 +1,33 @@
 require('dotenv').config();
 const {Client, Events, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, Embed, Activity, ActivityType, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js');
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]});
+const activityList = require('./activityList');
 
 // Functions
 function log(message, loglevel){
     if (loglevel == 1){
-        console.log(`[LOG] ${message}`); // Log As INFO
+        console.log(`[LOG | ${getTimestamp()}] ${message}`); // Log As INFO
         return;
     }
     if (loglevel == 2){
-        console.log(`[WARNING] ${message}`); // Log As WARNING
+        console.log(`[WARNING | ${getTimestamp()}] ${message}`); // Log As WARNING
         return;
     }
     if (loglevel == 3){
-        console.log(`[ERROR] ${message}`); // Log As ERROR
+        console.log(`[ERROR | ${getTimestamp()}] ${message}`); // Log As ERROR
         return;
     }
     else {
-        console.log(`[LOGGING ERROR] Logging Failed Due To Incorrect/Missing loglevel`); // Log As Failed To Log
+        console.log(`[LOGGING ERROR | ${getTimestamp()}] Logging Failed Due To Incorrect/Missing loglevel`); // Log As Failed To Log
         return;
     }
+}
+
+function getTimestamp(){
+    const date = new Date();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0'); 
+    return `${hours}:${minutes}`;
 }
 
 client.on("ready", (discordbot) => {
@@ -27,55 +35,18 @@ client.on("ready", (discordbot) => {
     log(`${discordbot.user.tag} is now running!`, 1);
 
     // Discord Bot Status Activities
-    const activites = [
-        {
-            name: 'Gav on YouTube | youtube.com/@GvNx',
-            type: ActivityType.Watching,
-            // url: 'https://www.youtube.com/watch?v=vqYBoxDrhDw',
-        },
-        /*
-        {
-            name: 'Ready or Not',
-            type: ActivityType.Playing,
-        },
-        {
-            name: 'Minecraft',
-            type: ActivityType.Playing,
-        },
-        {
-            name: 'Mortal Kombat 11',
-            type: ActivityType.Playing,
-        },
-        {
-            name: 'Roblox',
-            type: ActivityType.Playing,
-        },
-        */
-        {
-            name: 'to be better than Glitchy The Companion',
-            type: ActivityType.Competing,
-        },
-        {
-            name: 'Gav on Twitch | twitch.tv/SimplyGav',
-            type: ActivityType.Watching,
-            // url: 'https://twitch.tv/simplygav',
-        },
-        {
-            name: 'music provided by ChillHop',
-            type: ActivityType.Listening,
-        }
-    ]
+    const activities = [activityList];
 
-    // Discord Bot Status Randomizes Every 10 Seconds
+    // Discord Bot Status Randomizes Every 2 Minutes
     setInterval(() => {
         const random = Math.floor(Math.random()*activites.length);
         client.user.setActivity(activites[random]);
         log(`Bot has changed activities!`, 1);
-    }, 15000);
+    }, 120000);
 
-    // Sets Discord Bot Status To "Streaming zaap.bio/gav" With A Link To "https://twitch.tv/giftcard/buy"
+    // Sets Discord Bot Status To Listening To Your Commands
     client.user.setActivity({
-        name: `Gav's Commands`,
+        name: `Your Commands`,
         type: ActivityType.Listening,
     });
 
@@ -149,4 +120,4 @@ client.on('interactionCreate', (interaction) => {
 })
 
 // Login To Discord Bot Token
-client.login(process.env.MY_HOT_STEAMY_AND_SEXY_TOKEN);
+client.login(process.env.SCRUMPTIOUS_DELICIOUS_YUMMY_GOOEY_STINKY_CRISPY_TASTY_HOT_STEAMY_SEXY_DISCORD_TOKEN);
